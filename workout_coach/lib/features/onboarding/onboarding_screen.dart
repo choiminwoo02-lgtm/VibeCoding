@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../core/models/user_goal.dart';
 import '../../shared/goal_constants.dart';
 import '../routine/routine_provider.dart';
+import '../manual_routine/manual_routine_screen.dart';
+import '../smart_routine/smart_routine_screen.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
@@ -15,9 +16,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final _pageController = PageController();
   int _page = 0;
   String? _selectedGoalId;
-  int _daysPerWeek = 3;
+  final List<String> _selectedDays = ['월요일', '수요일', '금요일'];
   bool _hasEquipment = false;
-  bool _isGenerating = false;
 
   @override
   void dispose() {
@@ -38,25 +38,19 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     );
   }
 
-  Future<void> _generate() async {
-    final goal = UserGoal(
-      goalType: _selectedGoalId!,
-      daysPerWeek: _daysPerWeek,
-      hasEquipment: _hasEquipment,
-    );
-
-    setState(() => _isGenerating = true);
-    await ref.read(routineProvider.notifier).generateRoutine(goal);
-
-    if (mounted) {
-      final error = ref.read(routineProvider).error;
-      if (error != null) {
-        setState(() => _isGenerating = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('오류: $error')),
-        );
-      }
+  void _openSmartRoutine() {
+    if (_selectedDays.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('운동 요일을 1개 이상 선택해주세요')),
+      );
+      return;
     }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => SmartRoutineScreen(selectedDays: List.from(_selectedDays)),
+      ),
+    );
   }
 
   @override
@@ -81,13 +75,24 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         onNext: _nextPage,
                       ),
                       _DetailsPage(
-                        daysPerWeek: _daysPerWeek,
+                        selectedDays: _selectedDays,
                         hasEquipment: _hasEquipment,
-                        onDaysChanged: (d) =>
-                            setState(() => _daysPerWeek = d),
+                        onDayToggled: (day) => setState(() {
+                          if (_selectedDays.contains(day)) {
+                            _selectedDays.remove(day);
+                          } else {
+                            _selectedDays.add(day);
+                          }
+                        }),
                         onEquipmentChanged: (v) =>
                             setState(() => _hasEquipment = v),
-                        onGenerate: _generate,
+                        onGenerate: _openSmartRoutine,
+                        onManual: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const ManualRoutineScreen(),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -96,28 +101,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             ),
           ),
         ),
-        if (_isGenerating)
-          Container(
-            color: Colors.black54,
-            child: const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator(color: Colors.white),
-                  SizedBox(height: 20),
-                  Text(
-                    'AI가 맞춤 루틴을 생성하고 있어요...',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    '잠시만 기다려주세요',
-                    style: TextStyle(color: Colors.white70, fontSize: 13),
-                  ),
-                ],
-              ),
-            ),
-          ),
       ],
     );
   }
@@ -271,18 +254,20 @@ class _GoalCard extends StatelessWidget {
 }
 
 class _DetailsPage extends StatelessWidget {
-  final int daysPerWeek;
+  final List<String> selectedDays;
   final bool hasEquipment;
-  final ValueChanged<int> onDaysChanged;
+  final ValueChanged<String> onDayToggled;
   final ValueChanged<bool> onEquipmentChanged;
   final VoidCallback onGenerate;
+  final VoidCallback onManual;
 
   const _DetailsPage({
-    required this.daysPerWeek,
+    required this.selectedDays,
     required this.hasEquipment,
-    required this.onDaysChanged,
+    required this.onDayToggled,
     required this.onEquipmentChanged,
     required this.onGenerate,
+    required this.onManual,
   });
 
   @override
@@ -303,41 +288,50 @@ class _DetailsPage extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   )),
           const SizedBox(height: 32),
-          Text('주당 운동 횟수',
+          Text('운동 요일 선택',
               style: Theme.of(context)
                   .textTheme
                   .titleMedium
                   ?.copyWith(fontWeight: FontWeight.bold)),
+          const SizedBox(height: 4),
+          Text('${selectedDays.length}일 선택됨',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.bold)),
           const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(5, (i) {
-              final days = i + 2;
-              final isSelected = daysPerWeek == days;
+            children: ['월', '화', '수', '목', '금', '토', '일'].map((short) {
+              final full = '${short}요일';
+              final isSelected = selectedDays.contains(full);
+              final primary = Theme.of(context).colorScheme.primary;
               return GestureDetector(
-                onTap: () => onDaysChanged(days),
+                onTap: () => onDayToggled(full),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 150),
-                  width: 52,
-                  height: 52,
+                  width: 40,
+                  height: 40,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: isSelected
-                        ? Theme.of(context).colorScheme.primary
-                        : Colors.grey.shade100,
+                    color: isSelected ? primary : Colors.grey.shade100,
+                    border: Border.all(
+                      color: isSelected ? primary : Colors.grey.shade300,
+                      width: isSelected ? 2 : 1,
+                    ),
                   ),
                   child: Center(
                     child: Text(
-                      '$days회',
+                      short,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
+                        fontSize: 13,
                         color: isSelected ? Colors.white : Colors.black87,
                       ),
                     ),
                   ),
                 ),
               );
-            }),
+            }).toList(),
           ),
           const SizedBox(height: 32),
           Text('운동 장비',
@@ -373,6 +367,17 @@ class _DetailsPage extends StatelessWidget {
               icon: const Icon(Icons.auto_awesome),
               label: const Text('AI 루틴 생성'),
               style: FilledButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16)),
+            ),
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              onPressed: onManual,
+              icon: const Icon(Icons.edit_note),
+              label: const Text('직접 만들기'),
+              style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16)),
             ),
           ),

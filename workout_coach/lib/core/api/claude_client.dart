@@ -5,8 +5,7 @@ import '../models/routine.dart';
 import '../models/user_goal.dart';
 
 class ClaudeClient {
-  static const _endpoint = 'https://api.anthropic.com/v1/messages';
-  static const _model = 'claude-sonnet-4-20250514';
+  static const _model = 'gemini-2.0-flash';
   static const _systemPrompt =
       '당신은 전문 퍼스널 트레이너입니다. '
       '사용자의 목표와 조건을 보고 다음 JSON 형식으로만 응답하세요: '
@@ -20,7 +19,7 @@ class ClaudeClient {
     if (apiKey.isEmpty) {
       throw Exception(
         'API 키가 설정되지 않았습니다.\n'
-        'flutter run --dart-define=CLAUDE_API_KEY=키 옵션으로 실행하세요.',
+        'flutter run --dart-define=GEMINI_API_KEY=키 옵션으로 실행하세요.',
       );
     }
 
@@ -28,20 +27,24 @@ class ClaudeClient {
         '주당 운동 횟수: ${goal.daysPerWeek}회\n'
         '운동 장비: ${goal.hasEquipment ? "있음 (덤벨, 바벨, 기구 사용 가능)" : "없음 (맨몸 운동만 가능)"}';
 
+    final url = Uri.parse(
+      'https://generativelanguage.googleapis.com/v1beta/models/$_model:generateContent?key=$apiKey',
+    );
+
     final response = await http.post(
-      Uri.parse(_endpoint),
-      headers: {
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-      },
+      url,
+      headers: {'content-type': 'application/json'},
       body: jsonEncode({
-        'model': _model,
-        'max_tokens': 2048,
-        'system': _systemPrompt,
-        'messages': [
-          {'role': 'user', 'content': userMessage},
+        'system_instruction': {
+          'parts': [{'text': _systemPrompt}],
+        },
+        'contents': [
+          {
+            'role': 'user',
+            'parts': [{'text': userMessage}],
+          },
         ],
+        'generationConfig': {'maxOutputTokens': 2048},
       }),
     );
 
@@ -52,7 +55,7 @@ class ClaudeClient {
     }
 
     final data = jsonDecode(response.body) as Map<String, dynamic>;
-    final text = (data['content'] as List).first['text'] as String;
+    final text = (data['candidates'] as List).first['content']['parts'].first['text'] as String;
 
     try {
       final cleaned = text.replaceAll(RegExp(r'```(?:json)?\n?'), '').trim();

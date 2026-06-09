@@ -18,6 +18,17 @@ class RoutineNotifier extends AsyncNotifier<Routine?> {
     return ref.read(databaseProvider).getActiveRoutine();
   }
 
+  Future<void> saveManualRoutine(Routine routine) async {
+    state = const AsyncValue.loading();
+    try {
+      final saved = await ref.read(databaseProvider).saveRoutine(routine);
+      ref.invalidate(recordsProvider);
+      state = AsyncValue.data(saved);
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+    }
+  }
+
   Future<void> generateRoutine(UserGoal goal) async {
     state = const AsyncValue.loading();
     try {
