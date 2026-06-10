@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../shared/goal_constants.dart';
+import '../../shared/theme_provider.dart';
 import '../routine/routine_provider.dart';
 import '../manual_routine/manual_routine_screen.dart';
 import '../smart_routine/smart_routine_screen.dart';
@@ -55,6 +56,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = ref.watch(themeModeProvider) == ThemeMode.dark;
+
     return Stack(
       children: [
         Scaffold(
@@ -99,6 +102,16 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 ),
               ],
             ),
+          ),
+        ),
+        Positioned(
+          top: MediaQuery.of(context).padding.top + 4,
+          right: 8,
+          child: IconButton(
+            icon: Icon(isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded),
+            tooltip: isDark ? '라이트 모드' : '다크 모드',
+            onPressed: () => ref.read(themeModeProvider.notifier).state =
+                isDark ? ThemeMode.light : ThemeMode.dark,
           ),
         ),
       ],
@@ -159,7 +172,7 @@ class _GoalPage extends StatelessWidget {
                   .headlineSmall
                   ?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
-          Text('목표에 맞는 AI 루틴을 생성해드립니다',
+          Text('목표에 맞는 루틴을 추천해드립니다',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   )),
@@ -214,7 +227,7 @@ class _GoalCard extends StatelessWidget {
         ),
         color: isSelected
             ? goalType.color.withValues(alpha: 0.08)
-            : Colors.white,
+            : Theme.of(context).colorScheme.surface,
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
@@ -365,7 +378,7 @@ class _DetailsPage extends StatelessWidget {
             child: FilledButton.icon(
               onPressed: onGenerate,
               icon: const Icon(Icons.auto_awesome),
-              label: const Text('AI 루틴 생성'),
+              label: const Text('스마트 루틴 추천'),
               style: FilledButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16)),
             ),

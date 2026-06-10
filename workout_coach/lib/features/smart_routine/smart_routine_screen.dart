@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/models/exercise_db.dart';
 import '../../core/models/routine.dart';
 import '../routine/routine_provider.dart';
+import '../routine/routine_screen.dart';
 
 class SmartRoutineScreen extends ConsumerStatefulWidget {
   final List<String> selectedDays;
@@ -94,10 +95,14 @@ class _SmartRoutineScreenState extends ConsumerState<SmartRoutineScreen> {
       createdAt: DateTime.now(),
     );
 
-    await ref.read(routineProvider.notifier).saveManualRoutine(routine);
-
     if (mounted) {
-      Navigator.of(context).popUntil((route) => route.isFirst);
+      setState(() => _isSaving = false);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => RoutinePreviewScreen(initialRoutine: routine),
+        ),
+      );
     }
   }
 
@@ -143,9 +148,13 @@ class _SmartRoutineScreenState extends ConsumerState<SmartRoutineScreen> {
                               .colorScheme
                               .onSurfaceVariant)),
                   const SizedBox(height: 16),
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
+                  GridView.count(
+                    crossAxisCount: 2,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 2.8,
                     children: bodyParts.map((part) {
                       final isSelected =
                           _selectedPartIds.contains(part.id);
@@ -154,7 +163,7 @@ class _SmartRoutineScreenState extends ConsumerState<SmartRoutineScreen> {
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 150),
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
+                              horizontal: 14, vertical: 10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(14),
                             border: Border.all(
@@ -165,24 +174,40 @@ class _SmartRoutineScreenState extends ConsumerState<SmartRoutineScreen> {
                             ),
                             color: isSelected
                                 ? primary.withValues(alpha: 0.08)
-                                : Colors.white,
+                                : Theme.of(context).colorScheme.surface,
+                            boxShadow: isSelected
+                                ? [
+                                    BoxShadow(
+                                      color: primary.withValues(alpha: 0.15),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 2),
+                                    )
+                                  ]
+                                : [
+                                    BoxShadow(
+                                      color: Colors.black
+                                          .withValues(alpha: 0.04),
+                                      blurRadius: 6,
+                                      offset: const Offset(0, 2),
+                                    )
+                                  ],
                           ),
                           child: Row(
-                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(part.emoji,
-                                  style: const TextStyle(fontSize: 20)),
-                              const SizedBox(width: 8),
-                              Text(part.name,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: isSelected ? primary : null,
-                                  )),
-                              if (isSelected) ...[
-                                const SizedBox(width: 6),
+                                  style: const TextStyle(fontSize: 22)),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Text(part.name,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                      color: isSelected ? primary : const Color(0xFF374151),
+                                    )),
+                              ),
+                              if (isSelected)
                                 Icon(Icons.check_circle,
-                                    size: 16, color: primary),
-                              ],
+                                    size: 18, color: primary),
                             ],
                           ),
                         ),

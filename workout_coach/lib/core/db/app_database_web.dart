@@ -14,6 +14,11 @@ class AppDatabase {
     return _routine!;
   }
 
+  Future<Routine> updateRoutine(Routine routine) async {
+    _routine = routine.copyWith(id: _routine?.id ?? 1);
+    return _routine!;
+  }
+
   Future<List<WorkoutRecord>> getAllRecords() async => List.from(_records);
 
   Future<WorkoutRecord?> getRecordForDate(DateTime date) async {

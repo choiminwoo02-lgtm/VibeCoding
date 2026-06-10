@@ -59,6 +59,17 @@ class AppDatabase {
     return routine.copyWith(id: id);
   }
 
+  Future<Routine> updateRoutine(Routine routine) async {
+    final db = await _database;
+    if (routine.id != null) {
+      final map = routine.toMap()..remove('id');
+      await db.update('routines', map, where: 'id = ?', whereArgs: [routine.id]);
+      return routine;
+    }
+    final id = await db.insert('routines', routine.toMap());
+    return routine.copyWith(id: id);
+  }
+
   Future<List<WorkoutRecord>> getAllRecords() async {
     final db = await _database;
     final maps =

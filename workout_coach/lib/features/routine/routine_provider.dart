@@ -42,6 +42,18 @@ class RoutineNotifier extends AsyncNotifier<Routine?> {
     }
   }
 
+  Future<void> swapExercise(int dayIndex, int exerciseIndex, ExerciseItem newEx) async {
+    final current = state.valueOrNull;
+    if (current == null) return;
+    final updated = current.copyWithSwap(dayIndex, exerciseIndex, newEx);
+    state = AsyncValue.data(updated);
+    try {
+      await ref.read(databaseProvider).updateRoutine(updated);
+    } catch (_) {
+      state = AsyncValue.data(current);
+    }
+  }
+
   Future<void> resetRoutine() async {
     await ref.read(databaseProvider).clearAll();
     ref.invalidate(recordsProvider);

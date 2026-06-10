@@ -77,6 +77,29 @@ class Routine {
         createdAt: createdAt,
       );
 
+  Routine copyWithSwap(int dayIdx, int exIdx, ExerciseItem newEx) {
+    final newPlan = [
+      for (var i = 0; i < weeklyPlan.length; i++)
+        i == dayIdx
+            ? RoutineDay(
+                day: weeklyPlan[i].day,
+                focus: weeklyPlan[i].focus,
+                exercises: [
+                  for (var j = 0; j < weeklyPlan[i].exercises.length; j++)
+                    j == exIdx ? newEx : weeklyPlan[i].exercises[j],
+                ],
+              )
+            : weeklyPlan[i],
+    ];
+    return Routine(
+      id: id,
+      name: name,
+      daysPerWeek: daysPerWeek,
+      weeklyPlan: newPlan,
+      createdAt: createdAt,
+    );
+  }
+
   Map<String, dynamic> toMap() => {
         if (id != null) 'id': id,
         'name': name,

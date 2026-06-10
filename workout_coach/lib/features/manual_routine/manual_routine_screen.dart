@@ -495,7 +495,7 @@ class _ExerciseSelectTile extends StatelessWidget {
         ),
         color: isSelected
             ? primary.withValues(alpha: 0.06)
-            : Colors.white,
+            : Theme.of(context).colorScheme.surface,
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(14),

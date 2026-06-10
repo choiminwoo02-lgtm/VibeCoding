@@ -7,6 +7,17 @@ import '../../core/models/workout_record.dart';
 import '../../shared/goal_constants.dart';
 import '../routine/routine_provider.dart';
 
+class _SetData {
+  int reps;
+  bool done;
+  _SetData({required this.reps, this.done = false});
+}
+
+int _parseRepsToInt(String reps) {
+  final match = RegExp(r'\d+').firstMatch(reps);
+  return int.tryParse(match?.group(0) ?? '') ?? 10;
+}
+
 class TodayScreen extends ConsumerWidget {
   const TodayScreen({super.key});
 
@@ -44,7 +55,6 @@ class _RestDayScreen extends StatelessWidget {
     final today = DateTime.now();
     final workoutDays = routine.weeklyPlan.map((d) => d.day).join(' · ');
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(32),
@@ -128,6 +138,45 @@ class _RestDayScreen extends StatelessWidget {
   }
 }
 
+// ─── 인사 섹션 ─────────────────────────────────────────────────────────────────
+class _GreetingHeader extends StatelessWidget {
+  final String focus;
+  const _GreetingHeader({required this.focus});
+
+  @override
+  Widget build(BuildContext context) {
+    final hour = DateTime.now().hour;
+    final greeting = hour < 6
+        ? '이른 아침 운동 🌅'
+        : hour < 12
+            ? '좋은 아침이에요 ☀️'
+            : hour < 18
+                ? '오후 운동 파이팅 💪'
+                : '저녁 운동 화이팅 🌙';
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          greeting,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.w600,
+              ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          '오늘의 $focus 운동',
+          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFF111827),
+              ),
+        ),
+      ],
+    );
+  }
+}
+
 // ─── 운동일 ───────────────────────────────────────────────────────────────────
 class _WorkoutScreen extends ConsumerStatefulWidget {
   final Routine routine;
@@ -139,7 +188,7 @@ class _WorkoutScreen extends ConsumerStatefulWidget {
 }
 
 class _WorkoutScreenState extends ConsumerState<_WorkoutScreen> {
-  List<bool>? _completedList;
+  List<List<_SetData>>? _setsPerExercise;
   bool _isSaving = false;
 
   @override
@@ -150,28 +199,61 @@ class _WorkoutScreenState extends ConsumerState<_WorkoutScreen> {
 
   Future<void> _loadExisting() async {
     final record = await ref.read(databaseProvider).getRecordForDate(DateTime.now());
-    if (mounted) {
-      setState(() {
-        _completedList = record != null
-            ? List.from(record.completedList)
-            : List.filled(widget.todayDay.exercises.length, false);
-      });
-    }
+    if (!mounted) return;
+    setState(() {
+      _setsPerExercise = widget.todayDay.exercises.asMap().entries.map((e) {
+        final defaultReps = _parseRepsToInt(e.value.reps);
+        final sets = List.generate(e.value.sets, (_) => _SetData(reps: defaultReps));
+        if (record != null &&
+            e.key < record.completedList.length &&
+            record.completedList[e.key]) {
+          for (final s in sets) s.done = true;
+        }
+        return sets;
+      }).toList();
+    });
   }
 
-  int get _completedCount => _completedList?.where((c) => c).length ?? 0;
+  bool _isExerciseDone(int i) {
+    if (_setsPerExercise == null || i >= _setsPerExercise!.length) return false;
+    final sets = _setsPerExercise![i];
+    return sets.isNotEmpty && sets.every((s) => s.done);
+  }
+
+  int get _completedCount {
+    if (_setsPerExercise == null) return 0;
+    return List.generate(_setsPerExercise!.length, (i) => _isExerciseDone(i))
+        .where((v) => v)
+        .length;
+  }
+
   int get _totalCount => widget.todayDay.exercises.length;
 
   Future<void> _saveRecord() async {
-    if (_completedList == null) return;
+    if (_setsPerExercise == null) return;
     setState(() => _isSaving = true);
+
+    final exercises = widget.todayDay.exercises.asMap().entries.map((e) {
+      final sets = _setsPerExercise![e.key];
+      if (sets.isEmpty) return e.value;
+      final avgReps =
+          (sets.map((s) => s.reps).reduce((a, b) => a + b) / sets.length)
+              .round();
+      return ExerciseItem(
+        name: e.value.name,
+        sets: sets.length,
+        reps: '${avgReps}회',
+        description: e.value.description,
+      );
+    }).toList();
+
     final record = WorkoutRecord(
       routineId: widget.routine.id!,
       date: DateTime.now(),
       dayName: widget.todayDay.day,
       focus: widget.todayDay.focus,
-      exercises: widget.todayDay.exercises,
-      completedList: _completedList!,
+      exercises: exercises,
+      completedList: List.generate(_totalCount, (i) => _isExerciseDone(i)),
       createdAt: DateTime.now(),
     );
     await ref.read(recordsProvider.notifier).saveRecord(record);
@@ -192,52 +274,65 @@ class _WorkoutScreenState extends ConsumerState<_WorkoutScreen> {
   Widget build(BuildContext context) {
     final today = DateTime.now();
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
       appBar: AppBar(
-        backgroundColor: const Color(0xFFF8F9FA),
-        elevation: 0,
         title: Text(
           DateFormat('M월 d일 (E)', 'ko_KR').format(today),
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+            color: Color(0xFF6B7280),
+          ),
         ),
         actions: [
-          if (_completedList != null)
+          if (_setsPerExercise != null)
             Padding(
               padding: const EdgeInsets.only(right: 16),
-              child: Center(
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .primary
+                      .withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: Text(
-                  '$_completedCount/$_totalCount',
+                  '$_completedCount / $_totalCount',
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontSize: 14,
                   ),
                 ),
               ),
             ),
         ],
       ),
-      body: _completedList == null
+      body: _setsPerExercise == null
           ? const Center(child: CircularProgressIndicator())
           : Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 680),
                 child: ListView(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 100),
                   children: [
+                    _GreetingHeader(focus: widget.todayDay.focus),
+                    const SizedBox(height: 20),
                     _DayHeroCard(
                       day: widget.todayDay.day,
                       focus: widget.todayDay.focus,
                       completed: _completedCount,
                       total: _totalCount,
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 24),
                     ...List.generate(widget.todayDay.exercises.length, (i) {
                       return _ExerciseTile(
                         exercise: widget.todayDay.exercises[i],
                         focus: widget.todayDay.focus,
-                        isCompleted: _completedList![i],
-                        onToggle: (v) => setState(() => _completedList![i] = v),
+                        sets: _setsPerExercise![i],
+                        onSetsChanged: (newSets) =>
+                            setState(() => _setsPerExercise![i] = newSets),
                       );
                     }),
                     const SizedBox(height: 8),
@@ -245,7 +340,7 @@ class _WorkoutScreenState extends ConsumerState<_WorkoutScreen> {
                 ),
               ),
             ),
-      floatingActionButton: _completedList == null
+      floatingActionButton: _setsPerExercise == null
           ? null
           : FloatingActionButton.extended(
               onPressed: _isSaving ? null : _saveRecord,
@@ -428,26 +523,68 @@ class _CircleProgress extends StatelessWidget {
 }
 
 // ─── 운동 타일 ─────────────────────────────────────────────────────────────────
-class _ExerciseTile extends StatelessWidget {
+class _ExerciseTile extends StatefulWidget {
   final ExerciseItem exercise;
   final String? focus;
-  final bool isCompleted;
-  final ValueChanged<bool> onToggle;
+  final List<_SetData> sets;
+  final void Function(List<_SetData>) onSetsChanged;
 
   const _ExerciseTile({
     required this.exercise,
     this.focus,
-    required this.isCompleted,
-    required this.onToggle,
+    required this.sets,
+    required this.onSetsChanged,
   });
 
   @override
+  State<_ExerciseTile> createState() => _ExerciseTileState();
+}
+
+class _ExerciseTileState extends State<_ExerciseTile> {
+  bool _expanded = false;
+
+  bool get _isDone =>
+      widget.sets.isNotEmpty && widget.sets.every((s) => s.done);
+  int get _doneCount => widget.sets.where((s) => s.done).length;
+
+  void _addSet() {
+    final defaultReps = widget.sets.isNotEmpty ? widget.sets.last.reps : 10;
+    widget.onSetsChanged([...widget.sets, _SetData(reps: defaultReps)]);
+  }
+
+  void _removeSet() {
+    if (widget.sets.length <= 1) return;
+    widget.onSetsChanged(widget.sets.sublist(0, widget.sets.length - 1));
+  }
+
+  void _updateReps(int idx, int delta) {
+    final updated = List<_SetData>.from(widget.sets);
+    updated[idx] =
+        _SetData(reps: (updated[idx].reps + delta).clamp(1, 99), done: updated[idx].done);
+    widget.onSetsChanged(updated);
+  }
+
+  void _toggleSetDone(int idx) {
+    final updated = List<_SetData>.from(widget.sets);
+    updated[idx] = _SetData(reps: updated[idx].reps, done: !updated[idx].done);
+    widget.onSetsChanged(updated);
+  }
+
+  void _toggleAllDone() {
+    final allDone = _isDone;
+    widget.onSetsChanged(
+      widget.sets.map((s) => _SetData(reps: s.reps, done: !allDone)).toList(),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final muscle = ExerciseVisual.detect(exercise.name, focus);
+    final muscle = ExerciseVisual.detect(widget.exercise.name, widget.focus);
     final color = ExerciseVisual.getColor(muscle);
-    final imageUrl = ExerciseVisual.getExerciseImageUrl(exercise.name);
+    final imageUrl = ExerciseVisual.getExerciseImageUrl(widget.exercise.name);
     final emoji = ExerciseVisual.getEmoji(muscle);
     final label = ExerciseVisual.getLabel(muscle);
+    final firstReps = widget.sets.isNotEmpty ? widget.sets.first.reps : 0;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -455,11 +592,13 @@ class _ExerciseTile extends StatelessWidget {
         duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: isCompleted ? color.withValues(alpha: 0.05) : Colors.white,
-          border: isCompleted ? Border.all(color: color.withValues(alpha: 0.5), width: 2) : null,
+          color: _isDone
+              ? color.withValues(alpha: 0.05)
+              : Theme.of(context).colorScheme.surface,
+          border: _isDone ? Border.all(color: color.withValues(alpha: 0.5), width: 2) : null,
           boxShadow: [
             BoxShadow(
-              color: isCompleted
+              color: _isDone
                   ? color.withValues(alpha: 0.15)
                   : Colors.black.withValues(alpha: 0.06),
               blurRadius: 12,
@@ -469,139 +608,382 @@ class _ExerciseTile extends StatelessWidget {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
-          child: InkWell(
-            onTap: () => onToggle(!isCompleted),
-            child: SizedBox(
-              height: 110,
-              child: Row(
-                children: [
-                  // 왼쪽 이미지 영역
-                  SizedBox(
-                    width: 88,
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        Image.network(
-                          imageUrl,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [color, color.withValues(alpha: 0.7)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.black.withValues(alpha: 0.35),
-                                color.withValues(alpha: 0.45),
-                              ],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                          ),
-                        ),
-                        if (isCompleted)
-                          Container(color: Colors.black.withValues(alpha: 0.5)),
-                        Center(
-                          child: isCompleted
-                              ? const Icon(Icons.check_circle_rounded, color: Colors.white, size: 36)
-                              : Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(emoji, style: const TextStyle(fontSize: 26)),
-                                    const SizedBox(height: 4),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white.withValues(alpha: 0.25),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Text(
-                                        label,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // 오른쪽 내용
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  exercise.name,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                    decoration: isCompleted ? TextDecoration.lineThrough : null,
-                                    color: isCompleted ? Colors.grey.shade400 : null,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: Column(
+            children: [
+              // ── 헤더 (탭 → 펼치기/접기) ─────────────────────────────────
+              InkWell(
+                onTap: () => setState(() => _expanded = !_expanded),
+                child: SizedBox(
+                  height: 110,
+                  child: Row(
+                    children: [
+                      // 왼쪽 이미지
+                      SizedBox(
+                        width: 88,
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Image.network(
+                              imageUrl,
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) => Container(
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
-                                    colors: isCompleted
-                                        ? [Colors.grey.shade200, Colors.grey.shade300]
-                                        : [color, color.withValues(alpha: 0.85)],
-                                  ),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Text(
-                                  '${exercise.sets}×${exercise.reps}',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: isCompleted ? Colors.grey.shade500 : Colors.white,
+                                    colors: [color, color.withValues(alpha: 0.7)],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
                                   ),
                                 ),
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.black.withValues(alpha: 0.35),
+                                    color.withValues(alpha: 0.45),
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ),
+                              ),
+                            ),
+                            if (_isDone)
+                              Container(color: Colors.black.withValues(alpha: 0.5)),
+                            Center(
+                              child: _isDone
+                                  ? const Icon(Icons.check_circle_rounded,
+                                      color: Colors.white, size: 36)
+                                  : Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(emoji,
+                                            style: const TextStyle(fontSize: 26)),
+                                        const SizedBox(height: 4),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 6, vertical: 2),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white.withValues(alpha: 0.25),
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                          child: Text(
+                                            label,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // 오른쪽 정보
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(14, 12, 12, 12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      widget.exercise.name,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                        decoration: _isDone
+                                            ? TextDecoration.lineThrough
+                                            : null,
+                                        color: _isDone ? Colors.grey.shade400 : null,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 9, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: _isDone
+                                            ? [
+                                                Colors.grey.shade200,
+                                                Colors.grey.shade300
+                                              ]
+                                            : [color, color.withValues(alpha: 0.85)],
+                                      ),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      '${widget.sets.length}세트×${firstReps}회',
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.bold,
+                                        color: _isDone
+                                            ? Colors.grey.shade500
+                                            : Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              if (widget.exercise.description.isNotEmpty) ...[
+                                const SizedBox(height: 5),
+                                Text(
+                                  widget.exercise.description,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                        color: _isDone
+                                            ? Colors.grey.shade400
+                                            : Colors.grey.shade600,
+                                        height: 1.4,
+                                      ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                              const SizedBox(height: 6),
+                              Row(
+                                children: [
+                                  Text(
+                                    '$_doneCount/${widget.sets.length} 세트 완료',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: _isDone ? color : Colors.grey.shade500,
+                                      fontWeight:
+                                          _isDone ? FontWeight.bold : null,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Icon(
+                                    _expanded
+                                        ? Icons.keyboard_arrow_up_rounded
+                                        : Icons.keyboard_arrow_down_rounded,
+                                    size: 18,
+                                    color: Colors.grey.shade400,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                          if (exercise.description.isNotEmpty) ...[
-                            const SizedBox(height: 7),
-                            Text(
-                              exercise.description,
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: isCompleted
-                                        ? Colors.grey.shade400
-                                        : Colors.grey.shade600,
-                                    height: 1.4,
-                                  ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
+              ),
+              // ── 세트 상세 패널 ──────────────────────────────────────────
+              if (_expanded) ...[
+                Divider(height: 1, color: Colors.grey.shade200),
+                // 세트 수 컨트롤
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
+                  child: Row(
+                    children: [
+                      Text('세트 수',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey.shade700,
+                              fontSize: 14)),
+                      const Spacer(),
+                      _StepButton(
+                        icon: Icons.remove,
+                        onTap: widget.sets.length > 1 ? _removeSet : null,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 18),
+                        child: Text('${widget.sets.length}',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18)),
+                      ),
+                      _StepButton(icon: Icons.add, onTap: _addSet),
+                    ],
+                  ),
+                ),
+                Divider(height: 1, color: Colors.grey.shade100),
+                // 세트별 행
+                ...widget.sets.asMap().entries.map((e) => _SetRow(
+                      setNumber: e.key + 1,
+                      reps: e.value.reps,
+                      done: e.value.done,
+                      color: color,
+                      onToggle: () => _toggleSetDone(e.key),
+                      onDecrement: () => _updateReps(e.key, -1),
+                      onIncrement: () => _updateReps(e.key, 1),
+                    )),
+                // 전체 완료 버튼
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 6, 16, 14),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: _isDone
+                        ? OutlinedButton.icon(
+                            onPressed: _toggleAllDone,
+                            icon: const Icon(Icons.close_rounded, size: 16),
+                            label: const Text('완료 취소'),
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: Colors.grey.shade600,
+                              side: BorderSide(color: Colors.grey.shade300),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10),
+                            ),
+                          )
+                        : FilledButton.icon(
+                            onPressed: _toggleAllDone,
+                            icon: const Icon(Icons.check_rounded, size: 16),
+                            label: const Text('전체 완료'),
+                            style: FilledButton.styleFrom(
+                              backgroundColor: color,
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10),
+                            ),
+                          ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ─── 세트 행 ───────────────────────────────────────────────────────────────────
+class _SetRow extends StatelessWidget {
+  final int setNumber;
+  final int reps;
+  final bool done;
+  final Color color;
+  final VoidCallback onToggle;
+  final VoidCallback onDecrement;
+  final VoidCallback onIncrement;
+
+  const _SetRow({
+    required this.setNumber,
+    required this.reps,
+    required this.done,
+    required this.color,
+    required this.onToggle,
+    required this.onDecrement,
+    required this.onIncrement,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      decoration: BoxDecoration(
+        color: done ? color.withValues(alpha: 0.04) : null,
+        border: Border(bottom: BorderSide(color: Colors.grey.shade100)),
+      ),
+      child: Row(
+        children: [
+          // 세트 번호
+          Container(
+            width: 28,
+            height: 28,
+            decoration: BoxDecoration(
+              color: done ? color : Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Center(
+              child: Text(
+                '$setNumber',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                  color: done ? Colors.white : Colors.grey.shade600,
+                ),
               ),
             ),
           ),
+          const SizedBox(width: 12),
+          Text(
+            '세트 $setNumber',
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: done ? Colors.grey.shade400 : Colors.grey.shade700,
+              decoration: done ? TextDecoration.lineThrough : null,
+            ),
+          ),
+          const Spacer(),
+          // 횟수 조절
+          _StepButton(icon: Icons.remove, onTap: done ? null : onDecrement),
+          SizedBox(
+            width: 52,
+            child: Center(
+              child: Text(
+                '${reps}회',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: done ? Colors.grey.shade400 : null,
+                ),
+              ),
+            ),
+          ),
+          _StepButton(icon: Icons.add, onTap: done ? null : onIncrement),
+          const SizedBox(width: 12),
+          // 완료 체크박스
+          GestureDetector(
+            onTap: onToggle,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: 28,
+              height: 28,
+              decoration: BoxDecoration(
+                color: done ? color : Colors.transparent,
+                border: Border.all(
+                    color: done ? color : Colors.grey.shade300, width: 2),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: done
+                  ? const Icon(Icons.check_rounded, size: 16, color: Colors.white)
+                  : null,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── 스텝 버튼 ──────────────────────────────────────────────────────────────────
+class _StepButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback? onTap;
+  const _StepButton({required this.icon, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final enabled = onTap != null;
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 32,
+        height: 32,
+        decoration: BoxDecoration(
+          color: enabled
+              ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.1)
+              : Colors.grey.shade100,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Icon(
+          icon,
+          size: 16,
+          color: enabled
+              ? Theme.of(context).colorScheme.primary
+              : Colors.grey.shade300,
         ),
       ),
     );
