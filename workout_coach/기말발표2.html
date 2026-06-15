@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Workout Coach ??최종 발표</title>
+<title>Workout Coach — 최종 발표</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <style>
@@ -23,7 +23,7 @@
 html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--tx);font-family:'Pretendard',-apple-system,sans-serif;font-size:16px;line-height:1.7;}
 
-/* ?�?� NAV ?�?� */
+/* ── NAV ── */
 nav{position:fixed;top:0;left:0;right:0;z-index:200;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:rgba(255,255,255,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--br);box-shadow:0 1px 8px rgba(0,0,0,.06);}
 .logo{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.1em;color:var(--acc);}
 .nav-links{display:flex;gap:1.8rem;list-style:none;}
@@ -31,18 +31,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:58px;display:flex;ali
 .nav-links a:hover{color:var(--acc);}
 .nav-badge{font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:5px 14px;border-radius:20px;background:var(--acc);color:#fff;}
 
-/* ?�?� LAYOUT ?�?� */
+/* ── LAYOUT ── */
 .wrap{max-width:1080px;margin:0 auto;padding:0 2.5rem;}
 section{padding:6rem 0;border-bottom:1px solid var(--br);}
 section:last-of-type{border-bottom:none;}
 
-/* ?�?� SECTION HEADER ?�?� */
+/* ── SECTION HEADER ── */
 .sh{margin-bottom:2.8rem;}
 .sh-eye{display:inline-flex;align-items:center;font-size:.74rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--acc);background:var(--acc-l);padding:4px 12px;border-radius:20px;margin-bottom:1rem;}
 .sh-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3rem);letter-spacing:.04em;line-height:1;color:var(--tx);}
 .sh-sub{margin-top:.7rem;font-size:1rem;color:var(--mu);max-width:600px;line-height:1.7;}
 
-/* ?�?� HERO ?�?� */
+/* ── HERO ── */
 #hero{padding:9.5rem 0 5.5rem;background:linear-gradient(155deg,#fff 55%,#EEF4FF 100%);border-bottom:1px solid var(--br);}
 .hero-kicker{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);background:var(--acc-l);padding:5px 14px;border-radius:20px;margin-bottom:1.4rem;}
 .hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,9vw,8rem);line-height:.9;letter-spacing:.02em;margin-bottom:1.4rem;color:var(--tx);}
@@ -56,7 +56,7 @@ section:last-of-type{border-bottom:none;}
 .stat-n.hi{color:var(--acc);}
 .stat-l{font-size:.72rem;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.1em;margin-top:4px;}
 
-/* ?�?� VISION ?�?� */
+/* ── VISION ── */
 .vision-q{padding:2.2rem 2.2rem 2.2rem 2.4rem;border-left:4px solid var(--acc);background:var(--surface);border-radius:0 var(--r-lg) var(--r-lg) 0;margin-bottom:2.5rem;box-shadow:var(--sh);}
 .vision-qt{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.7rem,3.2vw,2.6rem);line-height:1.2;letter-spacing:.03em;}
 .vision-qt em{color:var(--acc);font-style:normal;}
@@ -76,9 +76,9 @@ section:last-of-type{border-bottom:none;}
 .pain-t{font-size:1rem;font-weight:700;margin-bottom:.5rem;}
 .pain-d{font-size:.88rem;color:var(--mu);line-height:1.7;}
 .pain-sol{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--br);font-size:.84rem;color:var(--acc);font-weight:600;}
-.pain-sol::before{content:"?? ";}
+.pain-sol::before{content:"→  ";}
 
-/* ?�?� FEATURES ?�?� */
+/* ── FEATURES ── */
 .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
 .feat-card{background:var(--surface);border:1.5px solid var(--br);border-radius:var(--r-lg);padding:1.6rem;box-shadow:var(--sh);transition:transform .2s,box-shadow .2s;position:relative;}
 .feat-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.1);}
@@ -92,20 +92,20 @@ section:last-of-type{border-bottom:none;}
 .feat-tag{font-size:.66rem;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--s2);color:var(--acc);border:1px solid #c7dcff;}
 .feat-tag.new-tag{background:var(--acc);color:#fff;border-color:var(--acc);}
 
-/* ?�?� ARCH ?�?� */
+/* ── ARCH ── */
 .merm-box{background:var(--surface);border:1.5px solid var(--br);border-radius:var(--r-lg);padding:2.2rem;overflow-x:auto;box-shadow:var(--sh);}
 .arch-legend{display:flex;gap:1.8rem;flex-wrap:wrap;margin-top:1.4rem;}
 .leg-item{display:flex;align-items:center;gap:7px;font-size:.82rem;color:var(--mu);font-weight:500;}
 .leg-dot{width:10px;height:10px;border-radius:3px;}
 
-/* ?�?� CONSTRAINTS ?�?� */
+/* ── CONSTRAINTS ── */
 .cons-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:2.5rem;}
 .cons-card{background:var(--warn-l);border:1.5px solid #FCD34D;border-radius:var(--r);padding:1.4rem;}
 .cons-icon{font-size:1.3rem;margin-bottom:.6rem;}
 .cons-t{font-size:.92rem;font-weight:700;color:var(--warn);margin-bottom:.4rem;}
 .cons-d{font-size:.84rem;color:#92400E;line-height:1.7;}
 
-/* ?�?� WBS ?�?� */
+/* ── WBS ── */
 .wbs-overview{background:var(--surface);border:1.5px solid var(--br);border-radius:var(--r-lg);padding:1.8rem;margin-bottom:1.5rem;box-shadow:var(--sh);}
 .wbs-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
 .wbs-label{font-size:.88rem;color:var(--mu);font-weight:600;}
@@ -136,17 +136,17 @@ section:last-of-type{border-bottom:none;}
 .wbs-tn.ok{color:var(--tx2);}
 .wbs-chk{font-size:.9rem;}
 
-/* ?�?� PROBLEMS ?�?� */
+/* ── PROBLEMS ── */
 .prob-list{display:flex;flex-direction:column;gap:14px;}
 .prob-card{background:var(--surface);border:1.5px solid var(--br);border-radius:var(--r-lg);padding:1.8rem;box-shadow:var(--sh);display:grid;grid-template-columns:56px 1fr;gap:0 1.4rem;align-items:start;}
 .prob-num{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--br2);line-height:1;margin-top:2px;}
 .prob-t{font-size:1rem;font-weight:700;margin-bottom:.6rem;}
 .prob-cause{font-size:.86rem;color:var(--err);margin-bottom:.4rem;line-height:1.6;}
 .prob-solve{font-size:.86rem;color:var(--done);line-height:1.6;}
-.prob-cause::before{content:"?�인  ";font-weight:700;}
-.prob-solve::before{content:"?�결  ";font-weight:700;}
+.prob-cause::before{content:"원인  ";font-weight:700;}
+.prob-solve::before{content:"해결  ";font-weight:700;}
 
-/* ?�?� FUTURE ?�?� */
+/* ── FUTURE ── */
 .fut-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
 .fut-card{background:var(--surface);border:1.5px solid var(--br);border-radius:var(--r-lg);padding:1.6rem;box-shadow:var(--sh);transition:transform .2s;}
 .fut-card:hover{transform:translateY(-3px);}
@@ -154,7 +154,7 @@ section:last-of-type{border-bottom:none;}
 .fut-t{font-size:.95rem;font-weight:700;margin-bottom:.4rem;}
 .fut-d{font-size:.86rem;color:var(--mu);line-height:1.7;}
 
-/* ?�?� DEMO VIDEO ?�?� */
+/* ── DEMO VIDEO ── */
 #demo{border-bottom:none;}
 .video-wrap{background:var(--surface);border:1.5px solid var(--br);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh);}
 .video-wrap video{width:100%;display:block;max-height:620px;background:#000;}
@@ -162,11 +162,11 @@ section:last-of-type{border-bottom:none;}
 .video-title{font-size:.88rem;font-weight:600;color:var(--tx2);}
 .video-duration{font-size:.78rem;color:var(--mu);background:var(--bg);padding:3px 10px;border-radius:20px;border:1px solid var(--br);}
 
-/* ?�?� FOOTER ?�?� */
+/* ── FOOTER ── */
 footer{padding:2.2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;max-width:1080px;margin:0 auto;font-size:.8rem;color:var(--mu);}
 .ft-logo{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--acc);}
 
-/* ?�?� RESPONSIVE ?�?� */
+/* ── RESPONSIVE ── */
 @media(max-width:768px){
   nav{padding:0 1.2rem;} .nav-links{display:none;}
   .wrap{padding:0 1.2rem;} section{padding:4rem 0;}
@@ -185,11 +185,11 @@ footer{padding:2.2rem 2.5rem;display:flex;justify-content:space-between;align-it
   <ul class="nav-links">
     <li><a href="#vision">비전</a></li>
     <li><a href="#features">기능</a></li>
-    <li><a href="#arch">?�키?�처</a></li>
+    <li><a href="#arch">아키텍처</a></li>
     <li><a href="#wbs">WBS</a></li>
-    <li><a href="#problems">문제 ?�결</a></li>
+    <li><a href="#problems">문제 해결</a></li>
     <li><a href="#future">개선 방향</a></li>
-    <li><a href="#demo">?�연 ?�상</a></li>
+    <li><a href="#demo">시연 영상</a></li>
   </ul>
   <span class="nav-badge">최종 발표 · Week 15</span>
 </nav>
@@ -198,8 +198,8 @@ footer{padding:2.2rem 2.5rem;display:flex;justify-content:space-between;align-it
 <section id="hero">
 <div class="wrap">
   <p class="hero-kicker">Vibe Coding Project · 최종 발표</p>
-  <h1 class="hero-h1">AI <em>?�동</em><br>루틴 코치</h1>
-  <p class="hero-sub">목표�??�력?�면 맞춤 주간 루틴???�동 ?�계?�고, ?�트 ?�위�?기록?�며 ?�동 ?��???만들?�주??Flutter ??/p>
+  <h1 class="hero-h1">AI <em>운동</em><br>루틴 코치</h1>
+  <p class="hero-sub">목표를 입력하면 맞춤 주간 루틴을 자동 설계하고, 세트 단위로 기록하며 운동 습관을 만들어주는 Flutter 앱</p>
   <div class="pills">
     <span class="pill">Flutter 3.x</span>
     <span class="pill">Dart</span>
@@ -207,15 +207,15 @@ footer{padding:2.2rem 2.5rem;display:flex;justify-content:space-between;align-it
     <span class="pill">SQLite · InMemory DB</span>
     <span class="pill">Material Design 3</span>
     <span class="pill">Pexels CDN</span>
-    <span class="pill new">?�크모드 지??/span>
+    <span class="pill new">다크모드 지원</span>
     <span class="pill">Web · Android · iOS</span>
   </div>
   <div class="hero-stats">
-    <div><div class="stat-n">7</div><div class="stat-l">?�성???�면</div></div>
-    <div><div class="stat-n">42</div><div class="stat-l">?�장 ?�동 종목</div></div>
-    <div><div class="stat-n">7</div><div class="stat-l">?�동 부??/div></div>
-    <div><div class="stat-n">2</div><div class="stat-l">루틴 ?�성 방식</div></div>
-    <div><div class="stat-n hi">85%</div><div class="stat-l">?�체 진행�?/div></div>
+    <div><div class="stat-n">7</div><div class="stat-l">완성된 화면</div></div>
+    <div><div class="stat-n">42</div><div class="stat-l">내장 운동 종목</div></div>
+    <div><div class="stat-n">7</div><div class="stat-l">운동 부위</div></div>
+    <div><div class="stat-n">2</div><div class="stat-l">루틴 생성 방식</div></div>
+    <div><div class="stat-n hi">85%</div><div class="stat-l">전체 진행률</div></div>
   </div>
 </div>
 </section>
@@ -224,24 +224,24 @@ footer{padding:2.2rem 2.5rem;display:flex;justify-content:space-between;align-it
 <section id="vision">
 <div class="wrap">
   <div class="sh">
-    <p class="sh-eye">01 ??비전 & 문제 ?�의</p>
-    <h2 class="sh-title">??만드?��?</h2>
-    <p class="sh-sub">?�동 루틴??갖는 것이 ??비용?�나 ?�문 지?�이 ?�어?�만 가?�한가. ??질문?�서 ?�작?�습?�다.</p>
+    <p class="sh-eye">01 — 비전 & 문제 정의</p>
+    <h2 class="sh-title">왜 만드는가</h2>
+    <p class="sh-sub">운동 루틴을 갖는 것이 왜 비용이나 전문 지식이 있어야만 가능한가. 이 질문에서 시작했습니다.</p>
   </div>
   <div class="vision-q">
-    <p class="vision-qt">"?�구???�신?�게<br><em>�?맞는 ?�동 루틴</em>??br>가�????�어???�다."</p>
-    <p class="vision-qs">?�스???�레?�너�?고용???�건???�어?? ?�동 지?�이 부족해????3가지 질문만으�??�만??주간 루틴??즉시 ?�계?�고, ?�트 ?�위�?기록?�며 꾸�????�천?�도�??�는??</p>
+    <p class="vision-qt">"누구나 자신에게<br><em>꼭 맞는 운동 루틴</em>을<br>가질 수 있어야 한다."</p>
+    <p class="vision-qs">퍼스널 트레이너를 고용할 여건이 없어도, 운동 지식이 부족해도 — 3가지 질문만으로 나만의 주간 루틴을 즉시 설계하고, 세트 단위로 기록하며 꾸준히 실천하도록 돕는다.</p>
   </div>
   <div class="v-cards">
-    <div class="v-card"><div class="v-icon">?��</div><div class="v-label">개인??/div><div class="v-text">목표·?�비·?�일 3가지 조건?�로 ?�만??루틴 즉시 ?�성. 마음?????�는 종목?� 미리보기?�서 바�? ???�다.</div></div>
-    <div class="v-card"><div class="v-icon">?��</div><div class="v-label">지?�성</div><div class="v-text">?�트 ???�수�?직접 조절?�며 ?�료 체크. ?�간 ?�력�?부?�별 차트�?꾸�??�을 ?�각?�한??</div></div>
-    <div class="v-card"><div class="v-icon">?��</div><div class="v-label">?�라?�버??/div><div class="v-text">모든 ?�이?��? 기기 ??SQLite(모바?? ?�는 ?�메모리 DB(?????�?? ?��? ?�버 불필??</div></div>
+    <div class="v-card"><div class="v-icon">🎯</div><div class="v-label">개인화</div><div class="v-text">목표·장비·요일 3가지 조건으로 나만의 루틴 즉시 생성. 마음에 안 드는 종목은 미리보기에서 바꿀 수 있다.</div></div>
+    <div class="v-card"><div class="v-icon">📈</div><div class="v-label">지속성</div><div class="v-text">세트 수/횟수를 직접 조절하며 완료 체크. 월간 달력과 부위별 차트로 꾸준함을 시각화한다.</div></div>
+    <div class="v-card"><div class="v-icon">🔒</div><div class="v-label">프라이버시</div><div class="v-text">모든 데이터를 기기 내 SQLite(모바일) 또는 인메모리 DB(웹)에 저장. 외부 서버 불필요.</div></div>
   </div>
   <div class="pain-grid">
-    <div class="pain-card"><span class="pain-tag p-red">Pain 1</span><div class="pain-t">루틴 ?�계??진입 ?�벽</div><div class="pain-d">?�동 초보?�는 무엇?? �??�트, ?�떤 ?�서�??�야 ?��? 결정?�기 ?�렵?? ?�못??루틴?� 부?�이???�기�??�어진다.</div><div class="pain-sol">?�마??루틴 ?�고리즘 + 미리보기 ?�집?�로 즉시 ?�성</div></div>
-    <div class="pain-card"><span class="pain-tag p-red">Pain 2</span><div class="pain-t">?�반 루틴????? 개인??/div><div class="pain-d">?�튜브·블로그??범용 루틴?� ?�비 ?�무, 목표, ?�호 ?�일??반영?��? 못한??</div><div class="pain-sol">7부??42종목 + ??종목 교체�??�만??루틴 ?�성</div></div>
-    <div class="pain-card"><span class="pain-tag p-yel">Pain 3</span><div class="pain-t">PT 비용 ?�벽</div><div class="pain-d">??30~50�????�상???�스???�레?�닝?� ?�?�수?�게 부?�이??</div><div class="pain-sol">로컬 ?�마???�고리즘 + 직접 만들기로 무료 ?��?/div></div>
-    <div class="pain-card"><span class="pain-tag p-yel">Pain 4</span><div class="pain-t">지?�성 추적??부??/div><div class="pain-d">루틴??메모·캡처�?관리하�??�료 기록, ?�성�??�인???�려???�기가 ?�긴??</div><div class="pain-sol">?�트 ?�위 기록 + ?�간 ?�력 + 부?�별 �?차트</div></div>
+    <div class="pain-card"><span class="pain-tag p-red">Pain 1</span><div class="pain-t">루틴 설계의 진입 장벽</div><div class="pain-d">운동 초보자는 무엇을, 몇 세트, 어떤 순서로 해야 할지 결정하기 어렵다. 잘못된 루틴은 부상이나 포기로 이어진다.</div><div class="pain-sol">스마트 루틴 알고리즘 + 미리보기 편집으로 즉시 생성</div></div>
+    <div class="pain-card"><span class="pain-tag p-red">Pain 2</span><div class="pain-t">일반 루틴의 낮은 개인화</div><div class="pain-d">유튜브·블로그의 범용 루틴은 장비 유무, 목표, 선호 요일을 반영하지 못한다.</div><div class="pain-sol">7부위 42종목 + ↔ 종목 교체로 나만의 루틴 완성</div></div>
+    <div class="pain-card"><span class="pain-tag p-yel">Pain 3</span><div class="pain-t">PT 비용 장벽</div><div class="pain-d">월 30~50만 원 이상의 퍼스널 트레이닝은 대다수에게 부담이다.</div><div class="pain-sol">로컬 스마트 알고리즘 + 직접 만들기로 무료 대체</div></div>
+    <div class="pain-card"><span class="pain-tag p-yel">Pain 4</span><div class="pain-t">지속성 추적의 부재</div><div class="pain-d">루틴을 메모·캡처로 관리하면 완료 기록, 달성률 확인이 어려워 동기가 끊긴다.</div><div class="pain-sol">세트 단위 기록 + 월간 달력 + 부위별 바 차트</div></div>
   </div>
 </div>
 </section>
@@ -250,75 +250,75 @@ footer{padding:2.2rem 2.5rem;display:flex;justify-content:space-between;align-it
 <section id="features">
 <div class="wrap">
   <div class="sh">
-    <p class="sh-eye">02 ??주요 기능</p>
-    <h2 class="sh-title">7�??�면 구성</h2>
-    <p class="sh-sub">?�보????미리보기 ???�트 ?�집 ???�간 ?�계까�?, ?�동 루틴????주기�?커버?�니??</p>
+    <p class="sh-eye">02 — 주요 기능</p>
+    <h2 class="sh-title">7개 화면 구성</h2>
+    <p class="sh-sub">온보딩 → 미리보기 → 세트 편집 → 월간 통계까지, 운동 루틴의 전 주기를 커버합니다.</p>
   </div>
   <div class="feat-grid">
 
     <div class="feat-card">
       <div class="feat-num">Screen 01</div>
-      <div class="feat-icon">?��</div>
-      <div class="feat-t">?�보??/div>
-      <div class="feat-d">2?�이지 PageView ??1p: 목표 ?�택(근육증�?/체중감량/체력?�상/건강?��?), 2p: ?�일 복수 ?�택 + ?�비 ?�무. ?�상???�크모드 ?��? ?�함.</div>
-      <div class="feat-tags"><span class="feat-tag">PageView</span><span class="feat-tag">?�크모드 ?��?</span></div>
+      <div class="feat-icon">🎯</div>
+      <div class="feat-t">온보딩</div>
+      <div class="feat-d">2페이지 PageView — 1p: 목표 선택(근육증가/체중감량/체력향상/건강유지), 2p: 요일 복수 선택 + 장비 유무. 우상단 다크모드 토글 포함.</div>
+      <div class="feat-tags"><span class="feat-tag">PageView</span><span class="feat-tag">다크모드 토글</span></div>
     </div>
 
     <div class="feat-card">
       <div class="feat-num">Screen 02</div>
-      <div class="feat-icon">?��</div>
-      <div class="feat-t">?�마??루틴 추천</div>
-      <div class="feat-d">7부??2??그리?�에???�하??부???�택 + ?�루 종목 ??3~6�? ?�택. ?�고리즘???�일�??�동 배분 ??미리보기 ?�면?�로 ?�동.</div>
-      <div class="feat-tags"><span class="feat-tag">부??그리??/span><span class="feat-tag">?�동 배분</span></div>
+      <div class="feat-icon">🤖</div>
+      <div class="feat-t">스마트 루틴 추천</div>
+      <div class="feat-d">7부위 2열 그리드에서 원하는 부위 선택 + 하루 종목 수(3~6개) 선택. 알고리즘이 요일별 자동 배분 → 미리보기 화면으로 이동.</div>
+      <div class="feat-tags"><span class="feat-tag">부위 그리드</span><span class="feat-tag">자동 배분</span></div>
     </div>
 
     <div class="feat-card highlight">
       <span class="feat-new">NEW</span>
       <div class="feat-num">Screen 03</div>
-      <div class="feat-icon">?���?/div>
+      <div class="feat-icon">👁️</div>
       <div class="feat-t">루틴 미리보기</div>
-      <div class="feat-d">?�?????�성??루틴 ?�인 �??�집. �?종목 ??버튼?�로 DB ?�?????�유�?�� 교체. "??루틴?�로 ?�작?�기" ?????�??</div>
-      <div class="feat-tags"><span class="feat-tag new-tag">??종목 교체</span><span class="feat-tag">?�?????�집</span></div>
+      <div class="feat-d">저장 전 생성된 루틴 확인 및 편집. 각 종목 ↔ 버튼으로 DB 저장 전 자유롭게 교체. "이 루틴으로 시작하기" 탭 시 저장.</div>
+      <div class="feat-tags"><span class="feat-tag new-tag">↔ 종목 교체</span><span class="feat-tag">저장 전 편집</span></div>
     </div>
 
     <div class="feat-card highlight">
       <span class="feat-new">강화</span>
       <div class="feat-num">Screen 04</div>
-      <div class="feat-icon">?��</div>
-      <div class="feat-t">?�늘???�동</div>
-      <div class="feat-d">?�어�?카드 + 진행�?게이지. ?�동 카드 ?????�트 ?�세 ?�널 ?�침 ???�트 ??+/-, ?�트�??�수 +/-, ?�트 ?�료 체크(?�금), ?�체 ?�료 버튼.</div>
-      <div class="feat-tags"><span class="feat-tag new-tag">?�트 ?�집</span><span class="feat-tag new-tag">?�수 개별 조절</span><span class="feat-tag">?�료 체크</span></div>
+      <div class="feat-icon">💪</div>
+      <div class="feat-t">오늘의 운동</div>
+      <div class="feat-d">히어로 카드 + 진행률 게이지. 운동 카드 탭 시 세트 상세 패널 펼침 — 세트 수 +/-, 세트별 횟수 +/-, 세트 완료 체크(잠금), 전체 완료 버튼.</div>
+      <div class="feat-tags"><span class="feat-tag new-tag">세트 편집</span><span class="feat-tag new-tag">횟수 개별 조절</span><span class="feat-tag">완료 체크</span></div>
     </div>
 
     <div class="feat-card highlight">
       <span class="feat-new">강화</span>
       <div class="feat-num">Screen 05</div>
-      <div class="feat-icon">?��</div>
+      <div class="feat-icon">📅</div>
       <div class="feat-t">루틴 보기</div>
-      <div class="feat-d">?�일�?ExpansionTile. �?종목 ??버튼 ??바�??�트?�서 부??�??�터 + 종목 ?�택. 즉시 교체 ??기록 ?��?. ?�크모드 ?��? + 루틴 초기??</div>
-      <div class="feat-tags"><span class="feat-tag new-tag">??바�??�트</span><span class="feat-tag">기록 ?��?</span></div>
+      <div class="feat-d">요일별 ExpansionTile. 각 종목 ↔ 버튼 → 바텀시트에서 부위 칩 필터 + 종목 선택. 즉시 교체 후 기록 유지. 다크모드 토글 + 루틴 초기화.</div>
+      <div class="feat-tags"><span class="feat-tag new-tag">↔ 바텀시트</span><span class="feat-tag">기록 유지</span></div>
     </div>
 
     <div class="feat-card">
       <div class="feat-num">Screen 06</div>
-      <div class="feat-icon">?��</div>
-      <div class="feat-t">기록 & ?�간 ?�계</div>
-      <div class="feat-d">???�비게이??&lt; &gt;). 7???�력 ???�동????부???�상 ?? ?�계 박스 3�??�수/?�료??종목 ??. ?�위 5부??�?차트.</div>
-      <div class="feat-tags"><span class="feat-tag">?�간 ?�력</span><span class="feat-tag">부?�별 �?차트</span><span class="feat-tag">?�전 ??조회</span></div>
+      <div class="feat-icon">📊</div>
+      <div class="feat-t">기록 & 월간 통계</div>
+      <div class="feat-d">월 네비게이션(&lt; &gt;). 7열 달력 — 운동한 날 부위 색상 점. 통계 박스 3개(횟수/완료율/종목 수). 상위 5부위 바 차트.</div>
+      <div class="feat-tags"><span class="feat-tag">월간 달력</span><span class="feat-tag">부위별 바 차트</span><span class="feat-tag">이전 달 조회</span></div>
     </div>
 
     <div class="feat-card">
       <div class="feat-num">Screen 07</div>
-      <div class="feat-icon">?�️</div>
-      <div class="feat-t">직접 루틴 만들�?/div>
-      <div class="feat-d">?�일별로 ?�동 부?�·종�?직접 ?�택. �?종목???�트/?�수 ?�집 가?? Pexels 60px ?�네??+ ?�시�??�택 카운??</div>
-      <div class="feat-tags"><span class="feat-tag">Pexels ?�네??/span><span class="feat-tag">?�트/?�수 ?�집</span></div>
+      <div class="feat-icon">✍️</div>
+      <div class="feat-t">직접 루틴 만들기</div>
+      <div class="feat-d">요일별로 운동 부위·종목 직접 선택. 각 종목의 세트/횟수 편집 가능. Pexels 60px 썸네일 + 실시간 선택 카운터.</div>
+      <div class="feat-tags"><span class="feat-tag">Pexels 썸네일</span><span class="feat-tag">세트/횟수 편집</span></div>
     </div>
 
     <div class="feat-card" style="background:var(--bg);border-style:dashed;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:200px;">
-      <div style="font-size:1.8rem;margin-bottom:.6rem;">?��</div>
-      <div style="font-size:.9rem;font-weight:600;color:var(--tx2);margin-bottom:.3rem;">?�크모드</div>
-      <div style="font-size:.8rem;color:var(--mu);line-height:1.6;">???�체 지??br>themeModeProvider�??�역 관�?/div>
+      <div style="font-size:1.8rem;margin-bottom:.6rem;">🌙</div>
+      <div style="font-size:.9rem;font-weight:600;color:var(--tx2);margin-bottom:.3rem;">다크모드</div>
+      <div style="font-size:.8rem;color:var(--mu);line-height:1.6;">앱 전체 지원<br>themeModeProvider로 전역 관리</div>
     </div>
 
   </div>
@@ -329,27 +329,27 @@ footer{padding:2.2rem 2.5rem;display:flex;justify-content:space-between;align-it
 <section id="arch">
 <div class="wrap">
   <div class="sh">
-    <p class="sh-eye">03 ???�키?�처</p>
-    <h2 class="sh-title">?�스???�계</h2>
-    <p class="sh-sub">Feature-based ?�더 구조 + Riverpod ?�태 관�? ?�랫??모바???????�라 DB 구현체�? 조건부�?교체?�니??</p>
+    <p class="sh-eye">03 — 아키텍처</p>
+    <h2 class="sh-title">시스템 설계</h2>
+    <p class="sh-sub">Feature-based 폴더 구조 + Riverpod 상태 관리. 플랫폼(모바일/웹)에 따라 DB 구현체를 조건부로 교체합니다.</p>
   </div>
   <div class="merm-box">
     <div class="mermaid">
 flowchart TD
-    MAIN["??main.dart\nProviderScope · DB 초기??· ?�국??로�???]
-    APP["?�� app.dart\nWorkoutCoachApp · AppRouter\n루틴 ?�무 ?�동 분기"]
+    MAIN["⚡ main.dart\nProviderScope · DB 초기화 · 한국어 로케일"]
+    APP["📱 app.dart\nWorkoutCoachApp · AppRouter\n루틴 유무 자동 분기"]
 
-    subgraph OB["?�보???�로??]
-        OB1["OnboardingScreen\n목표 · ?�일 · ?�비 (2p PageView)"]
-        OB2["SmartRoutineScreen\n7부???�택 ???�고리즘 ?�성"]
-        OB3["RoutinePreviewScreen ?�NEW\n?�?????�집 · ??종목 교체"]
-        OB4["ManualRoutineScreen\n?�일�?종목 직접 ?�택"]
+    subgraph OB["온보딩 플로우"]
+        OB1["OnboardingScreen\n목표 · 요일 · 장비 (2p PageView)"]
+        OB2["SmartRoutineScreen\n7부위 선택 → 알고리즘 생성"]
+        OB3["RoutinePreviewScreen ✨NEW\n저장 전 편집 · ↔ 종목 교체"]
+        OB4["ManualRoutineScreen\n요일별 종목 직접 선택"]
     end
 
-    subgraph SHELL["MainShell ??IndexedStack (?�단 ??3�?"]
-        T["TodayScreen\n?�트 ?�집 · ?�료 체크 ?�강??]
-        R["RoutineScreen\n??바�??�트 · 초기???�강??]
-        H["HistoryScreen\n?�간 ?�력 · �?차트"]
+    subgraph SHELL["MainShell — IndexedStack (하단 탭 3개)"]
+        T["TodayScreen\n세트 편집 · 완료 체크 ✨강화"]
+        R["RoutineScreen\n↔ 바텀시트 · 초기화 ✨강화"]
+        H["HistoryScreen\n월간 달력 · 바 차트"]
     end
 
     subgraph RIVERPOD["Riverpod Providers (routine_provider.dart)"]
@@ -361,20 +361,20 @@ flowchart TD
         DBP["databaseProvider (Provider)"]
     end
 
-    subgraph CORE["core/ ??공유 ?�원"]
-        DB["app_database.dart\n?�랫?�별 조건부 export\n모바?? SQLite / ?? ?�메모리"]
-        EDB["exercise_db.dart\n7부??42종목 ?�수"]
-        EV["exercise_visual.dart\nPexels ID · 부?�별 ?�상"]
+    subgraph CORE["core/ — 공유 자원"]
+        DB["app_database.dart\n플랫폼별 조건부 export\n모바일: SQLite / 웹: 인메모리"]
+        EDB["exercise_db.dart\n7부위 42종목 상수"]
+        EV["exercise_visual.dart\nPexels ID · 부위별 색상"]
         TH["app_theme.dart\nlightTheme / darkTheme"]
     end
 
     MAIN --> APP
-    APP -->|루틴 ?�음| OB1
-    APP -->|루틴 ?�음| T
+    APP -->|루틴 없음| OB1
+    APP -->|루틴 있음| T
     OB1 --> OB2 & OB4
     OB2 --> OB3
-    OB3 -->|?�?? RP
-    OB4 -->|?�?? RP
+    OB3 -->|저장| RP
+    OB4 -->|저장| RP
     T & R & H --> RP & RCP & TRP & WRP
     RP & RCP --> DBP
     DBP --> DB
@@ -390,24 +390,24 @@ flowchart TD
     </div>
   </div>
   <div class="arch-legend">
-    <div class="leg-item"><div class="leg-dot" style="background:#3A86FF"></div>?�보???�로??/div>
-    <div class="leg-item"><div class="leg-dot" style="background:#10B981"></div>메인 ??(IndexedStack)</div>
-    <div class="leg-item"><div class="leg-dot" style="background:#9333EA"></div>Riverpod ?�태 관�?/div>
-    <div class="leg-item"><div class="leg-dot" style="background:#D97706"></div>Core (모델 · DB · ?�마)</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#3A86FF"></div>온보딩 플로우</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#10B981"></div>메인 쉘 (IndexedStack)</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#9333EA"></div>Riverpod 상태 관리</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#D97706"></div>Core (모델 · DB · 테마)</div>
   </div>
 
   <div style="margin-top:2rem;">
-    <p style="font-size:.84rem;font-weight:700;color:var(--tx2);margin-bottom:1rem;">?�️ ?�려�??�약 ?�항</p>
+    <p style="font-size:.84rem;font-weight:700;color:var(--tx2);margin-bottom:1rem;">⚠️ 알려진 제약 사항</p>
     <div class="cons-grid">
       <div class="cons-card">
-        <div class="cons-icon">?��</div>
-        <div class="cons-t">?????�메모리 DB</div>
-        <div class="cons-d">Chrome ?�행 ??sqflite ?�???�메모리 DB ?�용. ?�이지 ?�로고침 ??루틴·기록 초기?�됨.</div>
+        <div class="cons-icon">🌐</div>
+        <div class="cons-t">웹 — 인메모리 DB</div>
+        <div class="cons-d">Chrome 실행 시 sqflite 대신 인메모리 DB 사용. 페이지 새로고침 시 루틴·기록 초기화됨.</div>
       </div>
       <div class="cons-card">
-        <div class="cons-icon">?���?/div>
-        <div class="cons-t">Windows ???��? 경로</div>
-        <div class="cons-d">경로 C:\Users\민우\ ???��???MSBuild가 처리 못함. flutter run -d chrome ?�로 ?�피.</div>
+        <div class="cons-icon">🖥️</div>
+        <div class="cons-t">Windows — 한글 경로</div>
+        <div class="cons-d">경로 C:\Users\민우\ 의 한글을 MSBuild가 처리 못함. flutter run -d chrome 으로 회피.</div>
       </div>
     </div>
   </div>
@@ -418,13 +418,13 @@ flowchart TD
 <section id="wbs">
 <div class="wrap">
   <div class="sh">
-    <p class="sh-eye">04 ??WBS</p>
-    <h2 class="sh-title">진행 ?�황</h2>
-    <p class="sh-sub">6�??�키지 기�? ?�체 진행�? ?�크모드·?�트 ?�집·미리보기 ?�료�?85%까�? ?�달?�습?�다.</p>
+    <p class="sh-eye">04 — WBS</p>
+    <h2 class="sh-title">진행 현황</h2>
+    <p class="sh-sub">6개 패키지 기준 전체 진행률. 다크모드·세트 편집·미리보기 완료로 85%까지 도달했습니다.</p>
   </div>
   <div class="wbs-overview">
     <div class="wbs-top">
-      <span class="wbs-label">?�체 진행�?/span>
+      <span class="wbs-label">전체 진행률</span>
       <span class="wbs-pct">85%</span>
     </div>
     <div class="pb-bg"><div class="pb-fill" style="width:85%"></div></div>
@@ -432,68 +432,68 @@ flowchart TD
   <div class="wbs-list">
 
     <div class="wbs-row">
-      <div class="wbs-hd" onclick="tog(this)"><span class="wbs-dot" style="background:var(--done)"></span><span class="wbs-id">1.1</span><span class="wbs-name">?�경 ?�정</span><div class="wbs-mini"><div class="wbs-mini-f" style="width:100%;background:var(--done)"></div></div><span class="wbs-st st-ok">???�료</span><span class="wbs-chv">??/span></div>
+      <div class="wbs-hd" onclick="tog(this)"><span class="wbs-dot" style="background:var(--done)"></span><span class="wbs-id">1.1</span><span class="wbs-name">환경 설정</span><div class="wbs-mini"><div class="wbs-mini-f" style="width:100%;background:var(--done)"></div></div><span class="wbs-st st-ok">✅ 완료</span><span class="wbs-chv">▼</span></div>
       <div class="wbs-body">
-        <div class="wbs-task"><span class="wbs-tid">1.1.1</span><span class="wbs-tn ok">Flutter ?�로?�트 초기??· Git ?�?�소 ?�결</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.1.2</span><span class="wbs-tn ok">pubspec.yaml ?�존??구성 (Riverpod, sqflite, intl)</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.1.3</span><span class="wbs-tn ok">Feature-based ?�더 구조 (core / features / shared)</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.1.4</span><span class="wbs-tn ok">Riverpod ProviderScope · databaseProvider ?�정</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.1.5</span><span class="wbs-tn ok">??Chrome) ?�선 ?�행 · Windows ?��? 경로 ?�슈 ?�회</span><span class="wbs-chk">??/span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.1.1</span><span class="wbs-tn ok">Flutter 프로젝트 초기화 · Git 저장소 연결</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.1.2</span><span class="wbs-tn ok">pubspec.yaml 의존성 구성 (Riverpod, sqflite, intl)</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.1.3</span><span class="wbs-tn ok">Feature-based 폴더 구조 (core / features / shared)</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.1.4</span><span class="wbs-tn ok">Riverpod ProviderScope · databaseProvider 설정</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.1.5</span><span class="wbs-tn ok">웹(Chrome) 우선 실행 · Windows 한글 경로 이슈 우회</span><span class="wbs-chk">✅</span></div>
       </div>
     </div>
 
     <div class="wbs-row">
-      <div class="wbs-hd" onclick="tog(this)"><span class="wbs-dot" style="background:var(--done)"></span><span class="wbs-id">1.2</span><span class="wbs-name">?�이??계층</span><div class="wbs-mini"><div class="wbs-mini-f" style="width:100%;background:var(--done)"></div></div><span class="wbs-st st-ok">???�료</span><span class="wbs-chv">??/span></div>
+      <div class="wbs-hd" onclick="tog(this)"><span class="wbs-dot" style="background:var(--done)"></span><span class="wbs-id">1.2</span><span class="wbs-name">데이터 계층</span><div class="wbs-mini"><div class="wbs-mini-f" style="width:100%;background:var(--done)"></div></div><span class="wbs-st st-ok">✅ 완료</span><span class="wbs-chv">▼</span></div>
       <div class="wbs-body">
-        <div class="wbs-task"><span class="wbs-tid">1.2.1</span><span class="wbs-tn ok">SQLite ?�키�?(routines · workout_records)</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.2.2</span><span class="wbs-tn ok">?�랫?�별 조건부 export (모바?? SQLite / ?? ?�메모리)</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.2.3</span><span class="wbs-tn ok">루틴 ?�??saveRoutine) · ?�정(updateRoutine) · 초기??/span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.2.4</span><span class="wbs-tn ok">?�동 기록 ?�??· 조회 (?�트/?�수 ?�함)</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.2.5</span><span class="wbs-tn ok">weekly_plan JSON 직렬??· ?�간 집계 쿼리</span><span class="wbs-chk">??/span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.2.1</span><span class="wbs-tn ok">SQLite 스키마 (routines · workout_records)</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.2.2</span><span class="wbs-tn ok">플랫폼별 조건부 export (모바일: SQLite / 웹: 인메모리)</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.2.3</span><span class="wbs-tn ok">루틴 저장(saveRoutine) · 수정(updateRoutine) · 초기화</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.2.4</span><span class="wbs-tn ok">운동 기록 저장 · 조회 (세트/횟수 포함)</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.2.5</span><span class="wbs-tn ok">weekly_plan JSON 직렬화 · 월간 집계 쿼리</span><span class="wbs-chk">✅</span></div>
       </div>
     </div>
 
     <div class="wbs-row">
-      <div class="wbs-hd" onclick="tog(this)"><span class="wbs-dot" style="background:var(--done)"></span><span class="wbs-id">1.3</span><span class="wbs-name">루틴 ?�성 ?�진</span><div class="wbs-mini"><div class="wbs-mini-f" style="width:100%;background:var(--done)"></div></div><span class="wbs-st st-ok">???�료</span><span class="wbs-chv">??/span></div>
+      <div class="wbs-hd" onclick="tog(this)"><span class="wbs-dot" style="background:var(--done)"></span><span class="wbs-id">1.3</span><span class="wbs-name">루틴 생성 엔진</span><div class="wbs-mini"><div class="wbs-mini-f" style="width:100%;background:var(--done)"></div></div><span class="wbs-st st-ok">✅ 완료</span><span class="wbs-chv">▼</span></div>
       <div class="wbs-body">
-        <div class="wbs-task"><span class="wbs-tid">1.3.1</span><span class="wbs-tn ok">7부??42종목 ?�장 DB (exercise_db.dart)</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.3.2</span><span class="wbs-tn ok">?�마??루틴 ?�동 배분 ?�고리즘 (부????vs ????분기)</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.3.3</span><span class="wbs-tn ok">Pexels CDN 종목�?42�??��?지 매핑</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.3.4</span><span class="wbs-tn ok">RoutinePreviewScreen ???�?????�집 · ??종목 교체</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.3.5</span><span class="wbs-tn ok">RoutineScreen ??바�??�트 ??부??�??�터 · 즉시 교체</span><span class="wbs-chk">??/span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.3.1</span><span class="wbs-tn ok">7부위 42종목 내장 DB (exercise_db.dart)</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.3.2</span><span class="wbs-tn ok">스마트 루틴 자동 배분 알고리즘 (부위 수 vs 일 수 분기)</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.3.3</span><span class="wbs-tn ok">Pexels CDN 종목별 42종 이미지 매핑</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.3.4</span><span class="wbs-tn ok">RoutinePreviewScreen — 저장 전 편집 · ↔ 종목 교체</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.3.5</span><span class="wbs-tn ok">RoutineScreen ↔ 바텀시트 — 부위 칩 필터 · 즉시 교체</span><span class="wbs-chk">✅</span></div>
       </div>
     </div>
 
     <div class="wbs-row">
-      <div class="wbs-hd" onclick="tog(this)"><span class="wbs-dot" style="background:var(--done)"></span><span class="wbs-id">1.4</span><span class="wbs-name">?�면 개발 (7�??�성)</span><div class="wbs-mini"><div class="wbs-mini-f" style="width:100%;background:var(--done)"></div></div><span class="wbs-st st-ok">???�료</span><span class="wbs-chv">??/span></div>
+      <div class="wbs-hd" onclick="tog(this)"><span class="wbs-dot" style="background:var(--done)"></span><span class="wbs-id">1.4</span><span class="wbs-name">화면 개발 (7개 완성)</span><div class="wbs-mini"><div class="wbs-mini-f" style="width:100%;background:var(--done)"></div></div><span class="wbs-st st-ok">✅ 완료</span><span class="wbs-chv">▼</span></div>
       <div class="wbs-body">
-        <div class="wbs-task"><span class="wbs-tid">1.4.1</span><span class="wbs-tn ok">?�보????2p PageView · 목표/?�일/?�비 · ?�크모드 ?��?</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.4.2</span><span class="wbs-tn ok">?�마??루틴 ??7부??그리??· 종목 ???�택 · ?�고리즘</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.4.3</span><span class="wbs-tn ok">루틴 미리보기 ???�?????�집 · ??교체 (?�규)</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.4.4</span><span class="wbs-tn ok">?�늘???�동 ???�트 ???�수 ?�집 · 체크박스 · ?�체 ?�료</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.4.5</span><span class="wbs-tn ok">루틴 보기 ??ExpansionTile · ??바�??�트 · 초기??/span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.4.6</span><span class="wbs-tn ok">기록/?�계 ???�간 ?�력 · �?차트 · ?�전 ??조회</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.4.7</span><span class="wbs-tn ok">직접 만들�???PageView · Pexels ?�네??· ?�트/?�수</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.4.8</span><span class="wbs-tn ok">?�크모드 ??lightTheme/darkTheme · themeModeProvider ?�역 ?�용</span><span class="wbs-chk">??/span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.4.1</span><span class="wbs-tn ok">온보딩 — 2p PageView · 목표/요일/장비 · 다크모드 토글</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.4.2</span><span class="wbs-tn ok">스마트 루틴 — 7부위 그리드 · 종목 수 선택 · 알고리즘</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.4.3</span><span class="wbs-tn ok">루틴 미리보기 — 저장 전 편집 · ↔ 교체 (신규)</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.4.4</span><span class="wbs-tn ok">오늘의 운동 — 세트 수/횟수 편집 · 체크박스 · 전체 완료</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.4.5</span><span class="wbs-tn ok">루틴 보기 — ExpansionTile · ↔ 바텀시트 · 초기화</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.4.6</span><span class="wbs-tn ok">기록/통계 — 월간 달력 · 바 차트 · 이전 달 조회</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.4.7</span><span class="wbs-tn ok">직접 만들기 — PageView · Pexels 썸네일 · 세트/횟수</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.4.8</span><span class="wbs-tn ok">다크모드 — lightTheme/darkTheme · themeModeProvider 전역 적용</span><span class="wbs-chk">✅</span></div>
       </div>
     </div>
 
     <div class="wbs-row">
-      <div class="wbs-hd" onclick="tog(this)"><span class="wbs-dot" style="background:var(--err)"></span><span class="wbs-id">1.5</span><span class="wbs-name">?�스??& QA</span><div class="wbs-mini"><div class="wbs-mini-f" style="width:5%;background:var(--err)"></div></div><span class="wbs-st st-no">??미완�?/span><span class="wbs-chv">??/span></div>
+      <div class="wbs-hd" onclick="tog(this)"><span class="wbs-dot" style="background:var(--err)"></span><span class="wbs-id">1.5</span><span class="wbs-name">테스트 & QA</span><div class="wbs-mini"><div class="wbs-mini-f" style="width:5%;background:var(--err)"></div></div><span class="wbs-st st-no">❌ 미완료</span><span class="wbs-chv">▼</span></div>
       <div class="wbs-body">
-        <div class="wbs-task"><span class="wbs-tid">1.5.1</span><span class="wbs-tn">?�위 ?�스?????�고리즘 · DB CRUD</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.5.2</span><span class="wbs-tn">Widget ?�스??(기본 ?�일�?존재)</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.5.3</span><span class="wbs-tn">Android / iOS ?�기�??�합 검�?/span><span class="wbs-chk">??/span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.5.1</span><span class="wbs-tn">단위 테스트 — 알고리즘 · DB CRUD</span><span class="wbs-chk">❌</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.5.2</span><span class="wbs-tn">Widget 테스트 (기본 파일만 존재)</span><span class="wbs-chk">❌</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.5.3</span><span class="wbs-tn">Android / iOS 실기기 통합 검증</span><span class="wbs-chk">❌</span></div>
       </div>
     </div>
 
     <div class="wbs-row">
-      <div class="wbs-hd" onclick="tog(this)"><span class="wbs-dot" style="background:var(--warn)"></span><span class="wbs-id">1.6</span><span class="wbs-name">빌드 & 배포</span><div class="wbs-mini"><div class="wbs-mini-f" style="width:30%;background:var(--warn)"></div></div><span class="wbs-st st-wn">?�� 부�??�료</span><span class="wbs-chv">??/span></div>
+      <div class="wbs-hd" onclick="tog(this)"><span class="wbs-dot" style="background:var(--warn)"></span><span class="wbs-id">1.6</span><span class="wbs-name">빌드 & 배포</span><div class="wbs-mini"><div class="wbs-mini-f" style="width:30%;background:var(--warn)"></div></div><span class="wbs-st st-wn">🔶 부분 완료</span><span class="wbs-chv">▼</span></div>
       <div class="wbs-body">
-        <div class="wbs-task"><span class="wbs-tid">1.6.1</span><span class="wbs-tn ok">Chrome debug 빌드 ?�공 · flutter run -d chrome</span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.6.2</span><span class="wbs-tn">Android 릴리�?빌드 (APK/AAB) 미진??/span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.6.3</span><span class="wbs-tn">iOS 빌드 · 코드?�이??미진??/span><span class="wbs-chk">??/span></div>
-        <div class="wbs-task"><span class="wbs-tid">1.6.4</span><span class="wbs-tn">docs/setup.md · architecture.md 문서 ?�리</span><span class="wbs-chk">??/span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.6.1</span><span class="wbs-tn ok">Chrome debug 빌드 성공 · flutter run -d chrome</span><span class="wbs-chk">✅</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.6.2</span><span class="wbs-tn">Android 릴리즈 빌드 (APK/AAB) 미진행</span><span class="wbs-chk">❌</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.6.3</span><span class="wbs-tn">iOS 빌드 · 코드사이닝 미진행</span><span class="wbs-chk">❌</span></div>
+        <div class="wbs-task"><span class="wbs-tid">1.6.4</span><span class="wbs-tn">docs/setup.md · architecture.md 문서 정리</span><span class="wbs-chk">❌</span></div>
       </div>
     </div>
 
@@ -505,26 +505,26 @@ flowchart TD
 <section id="problems">
 <div class="wrap">
   <div class="sh">
-    <p class="sh-eye">05 ??문제 ?�결</p>
-    <h2 class="sh-title">개발 �??�결??것들</h2>
-    <p class="sh-sub">개발 과정?�서 마주�?4가지 문제?� ?�결 방법?�니??</p>
+    <p class="sh-eye">05 — 문제 해결</p>
+    <h2 class="sh-title">개발 중 해결한 것들</h2>
+    <p class="sh-sub">개발 과정에서 마주친 4가지 문제와 해결 방법입니다.</p>
   </div>
   <div class="prob-list">
     <div class="prob-card">
       <div class="prob-num">01</div>
-      <div><div class="prob-t">Windows 빌드 ?�패 ???��? 경로</div><div class="prob-cause">C:\Users\민우\ 경로???��???MSBuild가 ?�코???�류�?처리</div><div class="prob-solve">Windows ?�이?�브 ?�??Chrome ?�으�??�환 ??flutter run -d chrome</div></div>
+      <div><div class="prob-t">Windows 빌드 실패 — 한글 경로</div><div class="prob-cause">C:\Users\민우\ 경로의 한글을 MSBuild가 인코딩 오류로 처리</div><div class="prob-solve">Windows 네이티브 대신 Chrome 웹으로 전환 — flutter run -d chrome</div></div>
     </div>
     <div class="prob-card">
       <div class="prob-num">02</div>
-      <div><div class="prob-t">Gemini API ?�당??초과 (429)</div><div class="prob-cause">무료 API ?�의 ?�로?�트 ?�벨 quota = 0, 처음부???�출 불�?</div><div class="prob-solve">AI API ?�거 ??로컬 ?�덤 ?�플 ?�고리즘?�로 ?�마??루틴 ?�성 ?��?/div></div>
+      <div><div class="prob-t">Gemini API 할당량 초과 (429)</div><div class="prob-cause">무료 API 키의 프로젝트 레벨 quota = 0, 처음부터 호출 불가</div><div class="prob-solve">AI API 제거 → 로컬 랜덤 셔플 알고리즘으로 스마트 루틴 생성 대체</div></div>
     </div>
     <div class="prob-card">
       <div class="prob-num">03</div>
-      <div><div class="prob-t">?�동 ?��?지가 모두 같�? ?�진</div><div class="prob-cause">Unsplash ID 매핑 ?�류 + ExerciseTile???��?지 ?�젯 ?�체 ?�락</div><div class="prob-solve">Pexels CDN?�로 ?�환 · 42종목 Photo ID 개별 매핑 · ?�젯 추�?</div></div>
+      <div><div class="prob-t">운동 이미지가 모두 같은 사진</div><div class="prob-cause">Unsplash ID 매핑 오류 + ExerciseTile에 이미지 위젯 자체 누락</div><div class="prob-solve">Pexels CDN으로 전환 · 42종목 Photo ID 개별 매핑 · 위젯 추가</div></div>
     </div>
     <div class="prob-card">
       <div class="prob-num">04</div>
-      <div><div class="prob-t">_daysPerWeek 컴파???�러</div><div class="prob-cause">�??�수�??�자?�서 ?�일 목록(_selectedDays)?�로 변�???참조 ?�락</div><div class="prob-solve">_daysPerWeek - 1 ??_selectedDays.length - 1 �??�체 참조 ?�정</div></div>
+      <div><div class="prob-t">_daysPerWeek 컴파일 에러</div><div class="prob-cause">주 횟수를 숫자에서 요일 목록(_selectedDays)으로 변경 후 참조 누락</div><div class="prob-solve">_daysPerWeek - 1 → _selectedDays.length - 1 로 전체 참조 수정</div></div>
     </div>
   </div>
 </div>
@@ -534,17 +534,17 @@ flowchart TD
 <section id="future">
 <div class="wrap">
   <div class="sh">
-    <p class="sh-eye">06 ???�후 개선</p>
-    <h2 class="sh-title">?�음 ?�계</h2>
-    <p class="sh-sub">?�스?�·배?��? ?�함???�의 ?�성?��? ?�일 개선 방향?�니??</p>
+    <p class="sh-eye">06 — 향후 개선</p>
+    <h2 class="sh-title">다음 단계</h2>
+    <p class="sh-sub">테스트·배포를 포함해 앱의 완성도를 높일 개선 방향입니다.</p>
   </div>
   <div class="fut-grid">
-    <div class="fut-card"><div class="fut-icon">?��</div><div class="fut-t">AI ?�동 복원</div><div class="fut-d">Claude API ?�는 Gemini 결제 계정?�로 개인?�된 루틴 ?�성 기능 복원 (claude_client.dart ?�재 미사???�태)</div></div>
-    <div class="fut-card"><div class="fut-icon">?��</div><div class="fut-t">???�이???�속??/div><div class="fut-d">?�메모리 DB�?LocalStorage ?�는 IndexedDB�?교체???�로고침 ?�에???�이???��?</div></div>
-    <div class="fut-card"><div class="fut-icon">?��</div><div class="fut-t">?�시 ?�림</div><div class="fut-d">Flutter Local Notifications�??�동 ?�간 ?�림 추�?</div></div>
-    <div class="fut-card"><div class="fut-icon">?��</div><div class="fut-t">?�스???�성</div><div class="fut-d">?�고리즘 ?�위 ?�스??· Widget ?�스???�성. widget_test.dart 기본 ?�일 ?�용</div></div>
-    <div class="fut-card"><div class="fut-icon">?��</div><div class="fut-t">Android 릴리�?/div><div class="fut-d">APK / AAB 릴리�?빌드 · ?�명 ?�정 · Play Store 배포 준�?/div></div>
-    <div class="fut-card"><div class="fut-icon">?��</div><div class="fut-t">?�동 ?�상 ?�동</div><div class="fut-d">�?종목??YouTube ?�모 ?�상 링크 ?�결???�바�??�세 ?�내</div></div>
+    <div class="fut-card"><div class="fut-icon">🤖</div><div class="fut-t">AI 연동 복원</div><div class="fut-d">Claude API 또는 Gemini 결제 계정으로 개인화된 루틴 생성 기능 복원 (claude_client.dart 현재 미사용 상태)</div></div>
+    <div class="fut-card"><div class="fut-icon">💾</div><div class="fut-t">웹 데이터 영속성</div><div class="fut-d">인메모리 DB를 LocalStorage 또는 IndexedDB로 교체해 새로고침 후에도 데이터 유지</div></div>
+    <div class="fut-card"><div class="fut-icon">🔔</div><div class="fut-t">푸시 알림</div><div class="fut-d">Flutter Local Notifications로 운동 시간 알림 추가</div></div>
+    <div class="fut-card"><div class="fut-icon">🧪</div><div class="fut-t">테스트 작성</div><div class="fut-d">알고리즘 단위 테스트 · Widget 테스트 작성. widget_test.dart 기본 파일 활용</div></div>
+    <div class="fut-card"><div class="fut-icon">📱</div><div class="fut-t">Android 릴리즈</div><div class="fut-d">APK / AAB 릴리즈 빌드 · 서명 설정 · Play Store 배포 준비</div></div>
+    <div class="fut-card"><div class="fut-icon">📹</div><div class="fut-t">운동 영상 연동</div><div class="fut-d">각 종목에 YouTube 데모 영상 링크 연결해 올바른 자세 안내</div></div>
   </div>
 </div>
 </section>
@@ -553,17 +553,17 @@ flowchart TD
 <section id="demo">
 <div class="wrap">
   <div class="sh">
-    <p class="sh-eye">07 ???�연 ?�모</p>
-    <h2 class="sh-title">???�연 ?�상</h2>
-    <p class="sh-sub">?�보?��????�동 기록까�? ?�체 기능 ?�름???�연?�니??</p>
+    <p class="sh-eye">07 — 시연 데모</p>
+    <h2 class="sh-title">앱 시연 영상</h2>
+    <p class="sh-sub">온보딩부터 운동 기록까지 전체 기능 흐름을 시연합니다.</p>
   </div>
   <div class="video-wrap">
     <video controls preload="metadata" poster="">
       <source src="demo.mp4" type="video/mp4">
-      브라?��?가 비디???�생??지?�하지 ?�습?�다.
+      브라우저가 비디오 재생을 지원하지 않습니다.
     </video>
     <div class="video-meta">
-      <span class="video-title">?�� Workout Coach ???�체 기능 ?�연</span>
+      <span class="video-title">🎬 Workout Coach — 전체 기능 시연</span>
       <span class="video-duration">Flutter · Web (Chrome)</span>
     </div>
   </div>
