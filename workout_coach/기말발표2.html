@@ -202,10 +202,10 @@ html,body{height:100%;overflow:hidden;margin:0;padding:0;}
 
 <nav id="slide-nav">
   <span class="nav-logo">Workout Coach</span>
-  <div class="dots" id="dots"><button class="dot" onclick="goTo(0)" title="표지"></button><button class="dot" onclick="goTo(1)" title="01 비전 & 문제 정의"></button><button class="dot" onclick="goTo(2)" title="02 주요 기능"></button><button class="dot" onclick="goTo(3)" title="03 아키텍처"></button><button class="dot" onclick="goTo(4)" title="04 WBS"></button><button class="dot" onclick="goTo(5)" title="05 문제 해결"></button><button class="dot" onclick="goTo(6)" title="06 향후 개선"></button><button class="dot" onclick="goTo(7)" title="07 시연 영상"></button></div>
+  <div class="dots" id="dots"><button class="dot" onclick="goTo(0)" title="표지"></button><button class="dot" onclick="goTo(1)" title="01 비전 & 문제 정의"></button><button class="dot" onclick="goTo(2)" title="02 주요 기능"></button><button class="dot" onclick="goTo(3)" title="03 아키텍처"></button><button class="dot" onclick="goTo(4)" title="04 WBS"></button><button class="dot" onclick="goTo(5)" title="05 문제 해결"></button><button class="dot" onclick="goTo(6)" title="06 향후 개선"></button><button class="dot" onclick="goTo(7)" title="ADR (기술 결정)"></button><button class="dot" onclick="goTo(8)" title="07 시연 영상"></button></div>
   <div class="nav-right">
     <span class="slide-title-label" id="stl"></span>
-    <span class="slide-counter" id="sc">1 / 8</span>
+    <span class="slide-counter" id="sc">1 / 9</span>
     <button class="nav-btn" id="btn-prev" onclick="prev()">&#8592;</button>
     <button class="nav-btn" id="btn-next" onclick="next()">&#8594;</button>
   </div>
@@ -552,7 +552,88 @@ flowchart TD
   </div>
 </div>
 </section></div></div>
-<div class="slide" id="slide-7" data-index="7"><div class="slide-inner"><section id="demo">
+
+<div class="slide" id="slide-7" data-index="7">
+  <div class="slide-inner">
+    <section id="adr">
+<div class="wrap">
+  <div class="sh">
+    <p class="sh-eye">부록 — ADR</p>
+    <h2 class="sh-title">기술 결정 기록</h2>
+    <p class="sh-sub">개발 중 내린 핵심 기술 선택과 그 이유입니다.</p>
+  </div>
+
+  <!-- ADR-0001 -->
+  <div style="background:var(--surface);border:1.5px solid var(--br);border-radius:var(--r-lg);padding:1.4rem;margin-bottom:14px;box-shadow:var(--sh);">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
+      <span style="font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:20px;background:var(--acc-l);color:var(--acc);">ADR-0001</span>
+      <span style="font-size:1rem;font-weight:700;">모바일 플랫폼 — Flutter</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+      <div style="background:var(--bg);border-radius:var(--r);padding:.9rem;">
+        <p style="font-size:.68rem;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem;">선택</p>
+        <p style="font-size:.88rem;font-weight:600;">Flutter 3.x</p>
+      </div>
+      <div style="background:var(--bg);border-radius:var(--r);padding:.9rem;">
+        <p style="font-size:.68rem;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem;">대안</p>
+        <p style="font-size:.88rem;">React Native, Android(Kotlin), iOS(Swift)</p>
+      </div>
+      <div style="background:var(--acc-l);border-radius:var(--r);padding:.9rem;">
+        <p style="font-size:.68rem;font-weight:700;color:var(--acc);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem;">선택 이유</p>
+        <p style="font-size:.88rem;">한 코드로 Android·iOS·Web 동시 지원. 빌드 문제 시 웹으로 즉시 전환 가능</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADR-0002 -->
+  <div style="background:var(--surface);border:1.5px solid var(--br);border-radius:var(--r-lg);padding:1.4rem;margin-bottom:14px;box-shadow:var(--sh);">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
+      <span style="font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:20px;background:var(--acc-l);color:var(--acc);">ADR-0002</span>
+      <span style="font-size:1rem;font-weight:700;">상태 관리 — Riverpod 2.x</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+      <div style="background:var(--bg);border-radius:var(--r);padding:.9rem;">
+        <p style="font-size:.68rem;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem;">선택</p>
+        <p style="font-size:.88rem;font-weight:600;">Riverpod 2.x</p>
+      </div>
+      <div style="background:var(--bg);border-radius:var(--r);padding:.9rem;">
+        <p style="font-size:.68rem;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem;">대안</p>
+        <p style="font-size:.88rem;">Provider, GetX, BLoC</p>
+      </div>
+      <div style="background:var(--acc-l);border-radius:var(--r);padding:.9rem;">
+        <p style="font-size:.68rem;font-weight:700;color:var(--acc);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem;">선택 이유</p>
+        <p style="font-size:.88rem;">컴파일 타임 오류 감지로 런타임 크래시 감소. 비동기 상태 관리가 깔끔함</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADR-0003 -->
+  <div style="background:var(--surface);border:1.5px solid var(--br);border-radius:var(--r-lg);padding:1.4rem;box-shadow:var(--sh);">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
+      <span style="font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:20px;background:var(--acc-l);color:var(--acc);">ADR-0003</span>
+      <span style="font-size:1rem;font-weight:700;">데이터 저장 — 로컬 DB</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+      <div style="background:var(--bg);border-radius:var(--r);padding:.9rem;">
+        <p style="font-size:.68rem;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem;">선택</p>
+        <p style="font-size:.88rem;font-weight:600;">SQLite (모바일) + 인메모리 DB (웹)</p>
+      </div>
+      <div style="background:var(--bg);border-radius:var(--r);padding:.9rem;">
+        <p style="font-size:.68rem;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem;">대안</p>
+        <p style="font-size:.88rem;">Firebase, Supabase, REST 서버</p>
+      </div>
+      <div style="background:var(--acc-l);border-radius:var(--r);padding:.9rem;">
+        <p style="font-size:.68rem;font-weight:700;color:var(--acc);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem;">선택 이유</p>
+        <p style="font-size:.88rem;">서버 불필요, 오프라인 동작, 개인정보 기기 내 보관</p>
+      </div>
+    </div>
+  </div>
+</div>
+    </section>
+  </div>
+</div>
+
+<div class="slide" id="slide-8" data-index="8"><div class="slide-inner"><section id="demo">
 <div class="wrap">
   <div class="sh">
     <p class="sh-eye">07 — 시연 데모</p>
@@ -576,8 +657,8 @@ flowchart TD
 <div class="key-hint"><span class="key">&#8592;</span><span class="key">&#8594;</span>&nbsp;키로 이동</div>
 
 <script>
-const TITLES = {"0": "표지", "1": "01 비전 & 문제 정의", "2": "02 주요 기능", "3": "03 아키텍처", "4": "04 WBS", "5": "05 문제 해결", "6": "06 향후 개선", "7": "07 시연 영상"};
-const N = 8;
+const TITLES = {"0": "표지", "1": "01 비전 & 문제 정의", "2": "02 주요 기능", "3": "03 아키텍처", "4": "04 WBS", "5": "05 문제 해결", "6": "06 향후 개선", "7": "ADR (기술 결정)", "8": "07 시연 영상"};
+const N = 9;
 let cur = 0;
 
 function goTo(i) {
